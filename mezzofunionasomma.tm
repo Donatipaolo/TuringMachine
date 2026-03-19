@@ -28,10 +28,31 @@
 (CERCA_[0..9]_#,{^#},CERCA_[0..9]_#,{^#},<)
 (CERCA_[0..9]_#,#,SCRIVI_PRIMO_[0..9],#,<)
 
-#Se è finito il primo numero cerco il secondo
+#Se è finito il primo, provo a copiare il secondo numero
 (CERCA_PRIMON, #, Copia_Secondo_Numero_Cerca_/, #, >) 
 
 #RICERCO N R O 
+# L'ALGORITMO FA DUE COSE DIVERSE IN BASE A QUALE DELLE DUE CIFRE STIAMO INSERENDO
+# -------------------------------------------------------------------------------
+# Se stiamo inserendo la cifra del primo numero (quello a sinistra del +) allora:
+# - Se troviamo - vuol dire che quello è il primo numero e quindi lo scriviamo
+# - Se troviamo N vuol dire che l'operazione precedente non ha portato un resto e quindi scriviamo la cifra sul posto
+# - Se troviamo R vuol dire che la somma precedente ha portato ad un resto, e quindi eseguiamo la somma in quella posizione e in caso segnaliamo un ulteriore riporto con una R messa alla sinstra del numero appena calcolato
+
+# -------------------------------------------------------------------------------
+# Se stiamo inserendo la cifra del secondo numer (quello alla destra del +) dobbiamo:
+# Se troviamo N ci spostiamo a sinistra ed eseguiamo la somma, in caso di riporto dobbiamo scrivere una R a sinistra
+# Se troviamo R ci spostiamo a sinistra ed eseguiamo la somma, un resto in questo caso non è possibile:
+# se ad esempio sommiamo due numeri 99+99 i passaggi sono i seguenti:
+# N9#9 +99/
+# R8#9 +9 /
+# R08#  +9 /
+# R98#  +  / -----> 198
+
+#Se il primo numero finisce prima del secondo allora il programma legge copia le cifre rimanenti dal secondo numero (Copia_Secondo_Numero)
+#Se il secondo numer finisce prima del secondo allora il programma legge copia tutte le cifre rimanenti dal primo numero (Copia_Primo_Numero)
+
+
 #Se trovo N scrivo la cifra sul posto
 (SCRIVI_PRIMO_[0..9],{^-NR},SCRIVI_PRIMO_[0..9],{^-NR},<)
 (SCRIVI_PRIMO_[0..9],-N,SCRIVI_PRIMO_N,[0..9],<)
