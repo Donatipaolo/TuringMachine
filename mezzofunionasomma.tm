@@ -41,8 +41,8 @@
 
 # -------------------------------------------------------------------------------
 # Se stiamo inserendo la cifra del secondo numer (quello alla destra del +) dobbiamo:
-# Se troviamo N ci spostiamo a sinistra ed eseguiamo la somma, in caso di riporto dobbiamo scrivere una R a sinistra
-# Se troviamo R ci spostiamo a sinistra ed eseguiamo la somma, un resto in questo caso non è possibile:
+# Se troviamo N ci spostiamo a destra ed eseguiamo la somma, in caso di riporto dobbiamo scrivere una R a sinistra
+# Se troviamo R ci spostiamo a destra ed eseguiamo la somma, un resto in questo caso non è possibile:
 # se ad esempio sommiamo due numeri 99+99 i passaggi sono i seguenti:
 # N9#9 +99/
 # R8#9 +9 /
