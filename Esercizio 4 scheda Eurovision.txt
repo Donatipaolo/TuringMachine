@@ -1,0 +1,57 @@
+#Esercizio 4 scheda Eurovision
+
+(0, [^], Segnainizio, [^], <)
+(SegnaInizio, - , Segna_/, ;, <)
+(Segna_/, -, SegnaFine, /, >)
+(SegnaFine, [^-], SegnaFine, [^-], >)
+(SegnaFine, -, SegnaFine2, ;, >)
+(SegnaFine2, -, CercaPrimo_;, =, <)
+
+#Cerco il primo ;
+
+(CercaPrimo_;, [^;], CercaPrimo_;, [^;], <)
+(CercaPrimo_;, ;, CercaSecondo_;, ;, <)
+
+#Una volta trovato cerco il secondo
+(CercaSecondo_;, [^;/], CercaSecondo_;, [^;/], <)
+(CercaSecondo_;, ;, CopiaLettera, ;, >)
+
+
+
+#Copio una lettera alla volta
+
+(CopiaLettera, -, CopiaLettera, -, >)
+(CopiaLettera, [a..z], Scrivi_[a..z]_=, -, >)
+
+#Cerco l'=
+(Scrivi_[a..z]_=, {^=}, Scrivi_[a..z]_=, {^=}, >)
+(Scrivi_[a..z]_=, =, Scrivi_[a..z], =, >)
+
+#Scrivo la lettera
+(Scrivi_[a..z], {^-}, Scrivi_[a..z], {^-}, >)
+(Scrivi_[a..z], -, Vai_a_=, [a..z], <)
+
+#se cercando la lettera trovo ;, la parola e' finita, scrivo ; alla fine e cerco il primo
+#inserisco ; alla fine
+(CopiaLettera, ;, Scrivi_;_=, -, >)
+
+(Scrivi_;_=, [^=], Scrivi_;_=, [^=], >)
+(Scrivi_;_=, =, Scrivi_;, =, >)
+
+(Scrivi_;, [^-], Scrivi_;, [^-], >)
+(Scrivi_;, -, Vai_a_=, ;, <)
+
+( Vai_a_=, [^=],  Vai_a_=, [^=], <)
+( Vai_a_=, =, CercaPrimo_;, =, <)
+
+#se trovo / ho finito
+
+(CercaSecondo_;, /, Cleanup, -, >)
+
+(Cleanup, [^=], Cleanup, -, >)
+(Cleanup, =, Cleanup_Fine, -, >)
+
+(Cleanup_Fine, [^-], Cleanup_Fine, [^-], >)
+(Cleanup_Fine, -, Togli_;, -, <)
+
+(Togli_;, ;, Fine, -, -)
