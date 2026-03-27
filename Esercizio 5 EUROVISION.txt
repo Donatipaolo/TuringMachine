@@ -1,0 +1,102 @@
+#Esercizio 5 EUROVISION
+
+#Metto un carattere all'inizio (=) e alla fine (;/ <-entrambi!!) che li identifichino
+#---RICERCA META---
+#Cerco la "meta'" tra i paesi
+
+#Vado tutto a destra, poi cerco un ; se lo trovo lo sostituisco con %
+#poi vado tutto a sinistra, cerco un ; se lo trovo lo sostituisco con *
+
+#se mentre sto cercando ; trovo un * inserisco un +, LI andra inserito la parola
+#se invece trovo % vado nella direzione opposta e al primo % che trovo metto +
+
+#---INSERIMENTO---
+
+#vado al + e inizio a copiare partendo dalla sua sinistra: prendo quello che leggo, lo cancello
+#e lo vado a copiare alla nel primo spazio vuoto che trovo (che sara' sicuramente alla sinistra
+#dell' =
+
+#se mentre cerco la lettera trovo $ vuol dire che ho finito, a questo punto "sposto"
+#tutto quello che si trova a destra accanto al $
+
+#vado al dollaro e sposto cosa trovo alla sinistra della prima cosa che trovo
+
+#se cercando una lettera trovo / vuol dire che ho finito
+#cancello / e il primo #, poi sostituisco tutti i # e $ che trovo con ;
+#se trovo = ho finito, lo cancello
+
+
+#inserisco carattere di inizio =
+(0, [^], Ins=, [^], <)
+(Ins=, -, Ins;, =, >)
+
+#inserisco carattere di fine ;
+(Ins;, [^-], Ins;, [^-], >)
+(Ins;, -, Ins/, ;, >)
+
+(Ins/, -, CercaDaDestra, /, <)
+
+#Trovo il punto in cui mettere la nuova parola
+
+#Cerco a partire da destra
+(CercaDaDestra, [^;], CercaDaDestra, [^;], <)
+(CercaDaDestra, ;, VaiASinistra, %, <)
+ 
+#Cerco da sinistra
+(CercaDaSinistra, [^;], CercaDaSinistra, [^;], >)
+(CercaDaSinistra, ;, VaiADestra, *, >)
+
+#Gestione per andare da un capo all'altro della stringa
+(VaiASinistra, [^-], VaiASinistra, [^-], <)
+(VaiASinistra, -, CercaDaSinistra, -, >)
+
+(VaiADestra, [^-], VaiADestra, [^-], >)
+(VaiADestra, -, CercaDaDestra, -, <)
+
+#Gestione della fine della ricerca
+#(CercaDaDestra, *, Cerca%Destra, %, >)
+#(Cerca%Destra, [^%], Cerca%Destra, [^%], >)
+#(Cerca%Destra, %, CopiaChar, +, <)
+(CercaDaDestra, *, CopiaChar, +, <)
+
+(CercaDaSinistra, %, Cerca*Sinistra, *, <)
+(Cerca*Sinistra, [^*], Cerca*Sinistra, [^*], <)
+(Cerca*Sinistra, *, CopiaChar, +, <)
+
+#Inizio a Copiare i Char
+
+(CopiaChar, [^$], Copia_[^$], -, <)
+(CopiaChar, -, CopiaChar, -, <)
+
+(Copia_[^$], {^-}, Copia_[^$], {^-}, <)
+(Copia_[^$], -, Vai+, [^$], >)
+
+#Gestione ritorno al +
+
+(Vai+, [^+], Vai+, [^+], >)
+(Vai+, +, CopiaChar, +, <)
+
+#Gestione fine copiatura
+(CopiaChar, $, ScriviChar, $, >)
+
+#gestione sposta cose da destra, cerco un char e poi scrivo alla sua destra
+
+(ScriviChar, [^/], Scrivi_[^/], -, <)
+(ScriviChar, -+, ScriviChar, --, >)
+
+(Scrivi_[^/], {^-}, Scrivi_[^/]_v2, {^-}, >)
+(Scrivi_[^/], -, Scrivi_[^/], -, <)
+(Scrivi_[^/]_v2, -, ScriviChar, [^/], >)
+
+#Gestione fine spostamento
+(ScriviChar, /, Cleanup#%, -, <)
+
+#Pulizia string a normalizzazione
+(Cleanup#%, -, Cleanup#%, -, <)
+(Cleanup#%, #%, CleanupAll, --, <)
+
+(CleanupAll, [^#=%*$], CleanupAll, [^#=%*$], <)
+(CleanupAll, #=%*$, CleanupAll, ;, <)
+(CleanupAll, -, Fine, -, -)
+
+
