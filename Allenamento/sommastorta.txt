@@ -1,0 +1,195 @@
+#Somma di due numeri
+ 
+#Trovo il simobolo uguale
+(0,[^1..9],0,[^1..9],>)
+(0,[1..9],1,[1..9],<)
+(1,[^],2,#,-)
+ 
+#Metto un simbolo di fine
+(2,[^-],2,[^-],>)
+(2,-,3,/,<)
+ 
+#Torno al # e inizio la somma
+(3,[^#],3,[^#],<)
+(3,#,CERCA_+,#,>)
+ 
+#Se lo trovo inizio ad eseguire la somma
+(0,=,CERCA_+,=,-)
+ 
+#Cerco il simbolo +
+(CERCA_+,[^+],CERCA_+,[^+],>)
+(CERCA_+,+,CERCA_PRIMON,+,-)
+ 
+#Se lo trovo prendo il primo numero andando verso sinistra e mi salvo il valore
+(CERCA_PRIMON,[^0..9#],CERCA_PRIMON,[^0..9#],<)
+(CERCA_PRIMON,[0..9],CERCA_[0..9]_#,-,<)
+ 
+#Una volta trovato il primo numero lo scrivo dopo il #
+(CERCA_[0..9]_#,{^#},CERCA_[0..9]_#,{^#},<)
+(CERCA_[0..9]_#,#,SCRIVI_PRIMO_[0..9],#,<)
+ 
+#RICERCO N R O 
+# L'ALGORITMO FA DUE COSE DIVERSE IN BASE A QUALE DELLE DUE CIFRE STIAMO INSERENDO
+# -------------------------------------------------------------------------------
+# Se stiamo inserendo la cifra del primo numero (quello a sinistra del +) allora:
+# - Se troviamo - vuol dire che quello è il primo numero e quindi lo scriviamo
+# - Se troviamo N vuol dire che l'operazione precedente non ha portato un resto e quindi scriviamo la cifra sul posto
+# - Se troviamo R vuol dire che la somma precedente ha portato ad un resto, e quindi eseguiamo la somma in quella posizione e in caso segnaliamo un ulteriore riporto con una R messa alla sinstra del numero appena calcolato
+ 
+# -------------------------------------------------------------------------------
+# Se stiamo inserendo la cifra del secondo numer (quello alla destra del +) dobbiamo:
+# Se troviamo N ci spostiamo a destra ed eseguiamo la somma, in caso di riporto dobbiamo scrivere una R a sinistra
+# Se troviamo R ci spostiamo a destra ed eseguiamo la somma, un resto in questo caso non è possibile:
+# se ad esempio sommiamo due numeri 99+99 i passaggi sono i seguenti:
+# N9#9 +99/
+# R8#9 +9 /
+# R08#  +9 /
+# R98#  +  / -----> 198
+ 
+#Se il primo numero finisce prima del secondo allora il programma legge copia le cifre rimanenti dal secondo numero (Copia_Secondo_Numero)
+#Se il secondo numer finisce prima del secondo allora il programma legge copia tutte le cifre rimanenti dal primo numero (Copia_Primo_Numero)
+ 
+
+#Se trovo N scrivo la cifra sul posto
+(SCRIVI_PRIMO_[0..9],{^-NR},SCRIVI_PRIMO_[0..9],{^-NR},<)
+(SCRIVI_PRIMO_[0..9],-N,SCRIVI_PRIMO_N,[0..9],<)
+ 
+#Se trovo R mi sposto a destra di uno e scrivo il valore + 1, poi mi sposto a sinistra e scrivo N
+#Esegui la somma e scrivi il risultato
+(SCRIVI_PRIMO_[0..9],R,SOMMA_PRIMO_NUMERO_[0..9],R,>)
+(SOMMA_PRIMO_NUMERO_[0..8],1,SCRIVI_PRIMO_N,[1..9],<)
+(SOMMA_PRIMO_NUMERO_9,1,SCRIVI_RIPORTO_1,0,<)
+(SCRIVI_PRIMO_N,[^],CERCA_/,N,>)
+ 
+(SCRIVI_R_PRIMO,[^],CERCA_/,R,>)
+ 
+#Cerco  il carattere di fine/
+(CERCA_/,[^/],CERCA_/,[^/],>)
+
+(CERCA_/,/,CERCA_SECONDON,/,<)
+
+(CERCA_/,=,Copia_Numero_Due,=,<)
+ 
+#Cerco il secondo numero
+(CERCA_SECONDON,[^0..9+],CERCA_SECONDON,[^0..9+],<)
+(CERCA_SECONDON,[0..9],CERCA_2_[0..9]_#,-,>)
+ 
+(CERCA_2_[0..9]_#,{^#},CERCA_2_[0..9]_#,{^#},<)
+(CERCA_2_[0..9]_#,#,SCRIVI_SECONDO_[0..9],#,<)
+ 
+#RICERCO R O -
+(SCRIVI_SECONDO_[0..9],{^-RN},SCRIVI_SECONDO_[0..9],{^-RN},<)
+(SCRIVI_SECONDO_[0..9],-N,SOMMA_[0..9]_2,-N,>)
+(SCRIVI_SECONDO_[0..9],-,SOMMA_[0..9]_2,0,-)
+(SCRIVI_SECONDO_[0..9], R, SOMMA_[0..9]_2, N, >)
+
+
+#Eseguo la Somma, se finisce con _1 e' una somma del primo numero, con _2 e' una somma del secondo
+(SOMMA_[0..9]_1,0,Scrivi_N_1,[0..9],<)
+(SOMMA_[0..9]_2,0,Scrivi_N_2,[0..9],<)
+
+(SOMMA_[0..8]_1,1,Scrivi_N_1,[1..9],<)
+(SOMMA_[0..8]_2,1,Scrivi_N_2,[1..9],<)
+
+(SOMMA_[0..7]_1,2,Scrivi_N_1,[2..9],<)
+(SOMMA_[0..7]_2,2,Scrivi_N_2,[2..9],<)
+
+(SOMMA_[0..6]_1,3,Scrivi_N_1,[3..9],<)
+(SOMMA_[0..6]_2,3,Scrivi_N_2,[3..9],<)
+
+(SOMMA_[0..5]_1,4,Scrivi_N_1,[4..9],<)
+(SOMMA_[0..5]_2,4,Scrivi_N_2,[4..9],<)
+
+(SOMMA_[0..4]_1,5,Scrivi_N_1,[5..9],<)
+(SOMMA_[0..4]_2,5,Scrivi_N_2,[5..9],<)
+
+(SOMMA_[0..3]_1,6,Scrivi_N_1,[6..9],<)
+(SOMMA_[0..3]_2,6,Scrivi_N_2,[6..9],<)
+
+(SOMMA_[0..2]_1,7,Scrivi_N_1,[7..9],<)
+(SOMMA_[0..2]_2,7,Scrivi_N_2,[7..9],<)
+
+(SOMMA_[0..1]_1,8,Scrivi_N_1,[8..9],<)
+(SOMMA_[0..1]_2,8,Scrivi_N_2,[8..9],<)
+
+(SOMMA_0_1,9,Scrivi_N_1,9,<)
+(SOMMA_0_2,9,Scrivi_N_2,9,<)
+ 
+#Scrivi N
+ 
+(Scrivi_N_1,R,SCRIVI_N_secondo,1,>)
+(Scrivi_N_1,-,CERCA_/,N,>)
+(Scrivi_N_1,N,CERCA_/,N,>)
+(Scrivi_N_1, [0..9], CERCA_/, [0..9], >)
+
+(Scrivi_N_2,R,SCRIVI_N_secondo,1,>)
+(Scrivi_N_2,-,CERCA_+,N,>)
+(Scrivi_N_2,N,CERCA_+,N,>)
+(Scrivi_N_2, [0..9], CERCA_+, [0..9], >)
+ 
+#Somma con riporto se finisce con _1 e' una somma del primo numero, con _2 e' una somma del secondo
+(SOMMA_1_1,9,SCRIVI_RIPORTO_1,0,<)
+(SOMMA_1_2,9,SCRIVI_RIPORTO_2,0,<)
+
+(SOMMA_2_1,[8..9],SCRIVI_RIPORTO_1,[0..1],<)
+(SOMMA_2_2,[8..9],SCRIVI_RIPORTO_2,[0..1],<)
+
+(SOMMA_3_1,[7..9],SCRIVI_RIPORTO_1,[0..2],<)
+(SOMMA_3_2,[7..9],SCRIVI_RIPORTO_2,[0..2],<)
+
+(SOMMA_4_1,[6..9],SCRIVI_RIPORTO_1,[0..3],<)
+(SOMMA_4_2,[6..9],SCRIVI_RIPORTO_2,[0..3],<)
+
+(SOMMA_5_1,[5..9],SCRIVI_RIPORTO_1,[0..4],<)
+(SOMMA_5_2,[5..9],SCRIVI_RIPORTO_2,[0..4],<)
+
+(SOMMA_6_1,[4..9],SCRIVI_RIPORTO_1,[0..5],<)
+(SOMMA_6_2,[4..9],SCRIVI_RIPORTO_2,[0..5],<)
+
+(SOMMA_7_1,[3..9],SCRIVI_RIPORTO_1,[0..6],<)
+(SOMMA_7_2,[3..9],SCRIVI_RIPORTO_2,[0..6],<)
+
+(SOMMA_8_1,[2..9],SCRIVI_RIPORTO_1,[0..7],<)
+(SOMMA_8_2,[2..9],SCRIVI_RIPORTO_2,[0..7],<)
+
+(SOMMA_9_1,[1..9],SCRIVI_RIPORTO_1,[0..8],<)
+(SOMMA_9_2,[1..9],SCRIVI_RIPORTO_2,[0..8],<)
+ 
+#Scrivo il riporto
+#il riporto era del primo numero
+(SCRIVI_RIPORTO_1,[^],SCRIVI_R_+_1,1,<)
+(SCRIVI_R_+_1,[^],CERCA_/,R,>)
+
+#Il riporto era del secondo numero
+(SCRIVI_RIPORTO_2,[^],SCRIVI_R_+_2,1,<)
+(SCRIVI_R_+_2,[^],CERCA_+,R,>)
+ 
+
+#se il secondo numero finisce prima del primo
+ 
+(CERCA_SECONDON, +, Copia_Primo_Numero, +, <)
+(Copia_Primo_Numero, -, Copia_Primo_Numero, -, <)
+(Copia_Primo_Numero, [0..9], CERCA_[0..9]_#, -, <)
+(Copia_Primo_Numero, #, Cleanup, -, >)
+ 
+
+#Se il primo numero finisce prima del secondo
+(CERCA_PRIMON, #, COPIA_SECONDO_NUMERO_CERCA_/, #, >)
+ 
+(COPIA_SECONDO_NUMERO_CERCA_/, [^/], COPIA_SECONDO_NUMERO_CERCA_/, [^/], >)
+(COPIA_SECONDO_NUMERO_CERCA_/, /, Copia_Numero_Due, =, <)
+ 
+
+(Copia_Numero_Due, -, Copia_Numero_Due, -, <)
+(Copia_Numero_Due, [0..9], CERCA_[0..9]_#, -, <)
+(Copia_Numero_Due, +, Cleanup, -, >)
+ 
+ 
+#Cleanup nastro
+(Cleanup, [^/], Cleanup, -, >)
+(Cleanup, /=, Clean_RN, --, <)
+(Clean_RN, [0..9], Clean_RN, [0..9], <)
+(Clean_RN, [^RN0..9], Clean_RN, -, <)
+(Clean_RN, RN, Fine, --, -)
+ 
+#Fine

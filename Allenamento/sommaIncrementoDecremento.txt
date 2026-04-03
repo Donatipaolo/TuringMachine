@@ -1,0 +1,45 @@
+#Somma MOLTO Lenta, SINTASSI: Numero1$Numero2
+
+(0, [^], Vai_A_Fine, [^], -)
+
+(Vai_A_Fine, [^-], Vai_A_Fine, [^-], >)
+(Vai_A_Fine, -, Decremento, -, <)
+
+#Incremento
+(Incremento, [0..9], Incremento_[0..9], [1..90], <)
+
+(Incremento_[0..8], {0..9}, CercaDollaroVersoDestra, {0..9}, -)
+(Incremento_[0..8], -, CercaDollaroVersoDestra, {^}, -)
+(Incremento_9, [-0..8], CercaDollaroVersoDestra, [11..9], -)
+(Incremento_9, 9, Incremento_9, 0, <)
+
+#Decremento
+(Decremento, [0..9], Decremento_[0..9], [0..9], -)
+
+(Decremento_[1..9], [1..9], CercaDollaroVersoSinistra, [0..8], -)
+
+(Decremento_0, 0, Decremento_CercaNumero, 9, <)
+
+(Decremento_CercaNumero, [1..9], CercaDollaroVersoSinistra, [0..8], -)
+
+(Decremento_CercaNumero, 0, Decremento_0, 0, -)
+(Decremento_CercaNumero, -, NegativoCancella, -, >)
+
+(NegativoCancella, [0..9], NegativoCancella, -, >)
+(NegativoCancella, -, NegativoCancellaDollaro, -, -)
+(NegativoCancellaDollaro, -, NegativoCancellaDollaro, -, <)
+(NegativoCancellaDollaro, $, Fine, -, -)
+
+#Gestione somma, Decrementa il numero a destra e somma quello a sinistra, i due numeri sono separati da $
+
+(CercaDollaroVersoSinistra, [^], CercaDollaroVersoSinistra, [^], <)
+(CercaDollaroVersoSinistra, $, Incremento, $, <)
+
+(CercaDollaroVersoDestra, [^], CercaDollaroVersoDestra, [^], >)
+(CercaDollaroVersoDestra, $, Vai_A_Fine, $, >)
+
+#Una volta finito, verra' letto il $ nello stato Decremento_CercaNumero, quindi se lo trova in quello stato vuol dire che la somma e' 
+#finita e inizio la pulizia del nastro
+(Decremento_CercaNumero, $, Pulizia, -, >)
+(Pulizia, [^-], Pulizia, -, >)
+(Pulizia, -, Fine, -, -)

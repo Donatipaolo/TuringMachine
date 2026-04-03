@@ -1,0 +1,12 @@
+Incremento
+
+(0, [^], Vai_A_Fine, [^], -)
+
+(Vai_A_Fine, [^-], Vai_A_Fine, [^-], >)
+(Vai_A_Fine, -, Incremento, -, <)
+
+(Incremento, [0..9], Incremento_[0..9], [1..90], <)
+
+(Incremento_[0..8], -, Fine, {^}, -)
+(Incremento_9, [-0..8], Fine, [11..9], -)
+(Incremento_9, 9, Incremento_9, 0, <)

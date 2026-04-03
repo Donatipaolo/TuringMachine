@@ -1,0 +1,10 @@
+(0, [0..9], TROVA_FINE, [0..9], -)
+(TROVA_FINE, [0..9],TROVA_FINE, [0..9], >)
+(TROVA_FINE, -, INCREMENTO, -, <)
+
+#RIPORTO
+(INCREMENTO, 9, INCREMENTO, 0, <)
+(INCREMENTO, -, FINE, 1, <)
+(INCREMENTO, [0..8], FINE, [1..9], <)
+
+#+1 e basta
