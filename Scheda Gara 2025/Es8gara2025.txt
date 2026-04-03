@@ -1,0 +1,66 @@
+#Cerco il primo =
+#Sostituisco con ?
+#la ricerca e' prima indietro di 12, 7, 6, 5, 2, 1 poi avanti uguale
+#se trovo uno spazio mentre vado alla destinazione torno al ? e vado alla ricerca successiva
+#se arrivato a destinazione trovo una P la sostituisco con X
+#Dopo che ho finito le ricerche (l'ultima e' avanti di 1), torno al ? e sostituisco con !,
+#se mentre cerco = trovo spazio allora ho finito, contro le x e cancello tutto
+
+
+
+(0, [^], Cerca_=, [^], -)
+
+(Cerca_=, [^=-], Cerca_=, [^=-], >)
+(Cerca_=, =, In_A_M, ?, -)
+
+(In_[A..F]_{M..B}, ., In_[A..F]_{L..A}, ., <)
+(In_[A..F]_{M..B}, |, In_[A..F]_{M..B}, |, <)
+
+(In_[A..F]_A, {^P|}, Des_?_[B..G], {^P|}, >)
+(In_[A..F]_A, P, Des_?_[B..G], ., >)
+(In_[A..F]_A, |, In_[A..F]_A, |, <)
+
+#Torno al ? verso destra
+(Des_?_[B..G], {^?}, Des_?_[B..G], {^?}, >)
+(Des_?_[B..F], ?, In_[B..E]_{HGFCB}, ?, -)
+
+
+#ricerca indietro finita, inizio ricerca avanti
+(Des_?_G, ?, Av_A_M, ?, -)
+
+(Av_[A..F]_{M..B}, ., Av_[A..F]_{L..A}, ., >)
+(Av_[A..F]_{M..B}, |, Av_[A..F]_{M..B}, |, >)
+
+(Av_[A..F]_A, {^P|}, Sin_?_[B..G], {^P|}, <)
+(Av_[A..F]_A, P, Sin_?_[B..Z], ., <)
+(Av_[A..F]_A, |, Av_[A..F]_A, |, >)
+
+#Torno al ? verso sinistra
+(Sin_?_[B..G], {^?}, Sin_?_[B..G], {^?}, >)
+(Sin_?_[B..F], ?, In_[B..E]_{HGFCB}, ?, -)
+
+#Fine Controllo
+(Sin_?_G, ?, Cerca_=, !, >)
+
+#Gestione trova spazi
+(In_[A..F]_{M..A}, -, Des_?_[B..G], -, >)
+(Av_[A..F]_{M..A}, -, Sin_?_[B..G], -, >)
+
+#Fine matrice
+(Cerca_=, -, Conta_0_0, -, <)
+
+(Conta_[0..9]_{0..9}, {^x-}, Conta_[0..9]_{0..9}, -, <)
+(Conta_[0..9]_{0..8}, x, Conta_[0..9]_{1..9}, -,)
+
+(Conta_[0..9]_9, x, Conta_[1..0]_0, -,)
+
+(Conta_[0..9]_{0..9}, -, Scrivi_[0..9]_{0..9}, -, <)
+
+(Scrivi_0_[0..9], -, Fine, [0..9], -)
+(Scrivi_[1..9]_{0..9}, -, Scrivi_0_{0..9}, [1..9], >)
+
+
+
+
+
+
