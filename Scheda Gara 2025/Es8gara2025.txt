@@ -6,58 +6,52 @@
 #Dopo che ho finito le ricerche (l'ultima e' avanti di 1), torno al ? e sostituisco con !,
 #se mentre cerco = trovo spazio allora ho finito, contro le x e cancello tutto
 
-
-
+#Inizio ricerca
 (0, [^], Cerca_=, [^], -)
 
 (Cerca_=, [^=-], Cerca_=, [^=-], >)
-(Cerca_=, =, In_A_M, ?, -)
+#Quando trovo un = inizio a cercare le piantine nelle vicinanze
+(Cerca_=, =, In_M, A, -)
 
-(In_[A..F]_{M..B}, ., In_[A..F]_{L..A}, ., <)
-(In_[A..F]_{M..B}, |, In_[A..F]_{M..B}, |, <)
+(In_{MLKJIHGFEDCB}, ., In_{LKJIHGFEDCBA}, ., <)
+(In_{MLKJIHGFEDCBa}, |, In_{MLKJIHGFEDCBA}, |, <)
 
-(In_[A..F]_A, {^P|}, Des_?_[B..G], {^P|}, >)
-(In_[A..F]_A, P, Des_?_[B..G], ., >)
-(In_[A..F]_A, |, In_[A..F]_A, |, <)
+(In_A, {^P|}, Des_?, {^P|}, >)
+(In_A, P, Des_?, X, >)
 
 #Torno al ? verso destra
-(Des_?_[B..G], {^?}, Des_?_[B..G], {^?}, >)
-(Des_?_[B..F], ?, In_[B..E]_{HGFCB}, ?, -)
-
+(Des_?, {^A..F}, Des_?, {^A..F}, >)
+(Des_?, [A..E], In_[hgfcb], [B..F], -)
+(Des_?, F, Av_M, A, -)
 
 #ricerca indietro finita, inizio ricerca avanti
-(Des_?_G, ?, Av_A_M, ?, -)
+#(Des_?_G, ?, Av_A_M, ?, -)
 
-(Av_[A..F]_{M..B}, ., Av_[A..F]_{L..A}, ., >)
-(Av_[A..F]_{M..B}, |, Av_[A..F]_{M..B}, |, >)
+(Av_{MLKJIHGFEDCB}, ., Av_{LKJIHGFEDCBA}, ., >)
+(Av_{MLKJIHGFEDCBA}, |, Av_{MLKJIHGFEDCBA}, |, >)
 
-(Av_[A..F]_A, {^P|}, Sin_?_[B..G], {^P|}, <)
-(Av_[A..F]_A, P, Sin_?_[B..Z], ., <)
-(Av_[A..F]_A, |, Av_[A..F]_A, |, >)
+(Av_A, {^P|}, Sin_?, {^P|}, <)
+(Av_A, P, SIn_?, X, <)
 
 #Torno al ? verso sinistra
-(Sin_?_[B..G], {^?}, Sin_?_[B..G], {^?}, >)
-(Sin_?_[B..F], ?, In_[B..E]_{HGFCB}, ?, -)
+(Sin_?, {^A..F}, Sin_?, {^A..F}, <)
+(Sin_?, [A..E], Av_[hgfcb], [B..F], -)
+(Sin_?, F, Cerca_=, ., -)
 
 #Fine Controllo
 (Sin_?_G, ?, Cerca_=, !, >)
 
 #Gestione trova spazi
-(In_[A..F]_{M..A}, -, Des_?_[B..G], -, >)
-(Av_[A..F]_{M..A}, -, Sin_?_[B..G], -, >)
+(In_{MLKJIHGFEDCBA}, -, Des_?, -, >)
+(Av_{MLKJIHGFEDCBA}, -, Sin_?], -, >)
 
 #Fine matrice
-(Cerca_=, -, Conta_0_0, -, <)
+(Cerca_=, -, Conta_0, -, <)
 
-(Conta_[0..9]_{0..9}, {^x-}, Conta_[0..9]_{0..9}, -, <)
-(Conta_[0..9]_{0..8}, x, Conta_[0..9]_{1..9}, -,)
+(Conta_[0..9A..Z*], X, Conta_[1..9A..Z*+], -, <)
+(Conta_[0..9A..Z*+], {^0..9A..Z*+}, Conta_[0..9A..Z*+], -, <)
 
-(Conta_[0..9]_9, x, Conta_[1..0]_0, -,)
-
-(Conta_[0..9]_{0..9}, -, Scrivi_[0..9]_{0..9}, -, <)
-
-(Scrivi_0_[0..9], -, Fine, [0..9], -)
-(Scrivi_[1..9]_{0..9}, -, Scrivi_0_{0..9}, [1..9], >)
+(Conta_[0..9A..Z*+],-,fine,[0..9A..Z*+],-)
 
 
 
