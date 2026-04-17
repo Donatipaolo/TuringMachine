@@ -1,0 +1,7 @@
+(0,[^p],0,-,>)
+(0,-,fine,-,-)
+(0,p,CERCA_P,p,>)
+(CERCA_P,[^-],CERCA_P,[^-],>)
+(CERCA_P,-,CANCELLA,-,<)
+(CANCELLA,[^p],CANCELLA,-,<)
+(CANCELLA,p,fine,p,-)

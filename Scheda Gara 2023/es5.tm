@@ -1,0 +1,35 @@
+(0,=,CERCA1,=,>)
+(CERCA1,[^c-],CERCA1,[^c-],>)
+(CERCA2,[^c-],CERCA2,[^c-],>)
+(CERCA3,[^S-],CERCA3,[^S-],>)
+(CERCA4,[^g-],CERCA4,[^G-],>)
+
+
+(CERCA[1..4],[CcSG],cerca[5..8],[CCSG],>)
+(cerca[5..8], =, cerca[1..4],=,>)
+(CERCA{1..4},-,SCRIVI_PANIC_FONDO,-,<)
+(cerca[5..7], [ese], INIZIO[2..4],[ese],<)
+(cerca5,[^e],CERCA1,[^e],>)
+(cerca6,[^s],CERCA2,[^e],>)
+(cerca7,[^e],CERCA3,[^e],>)
+(CERCA8,s,SCRIVI_GOOD_FONDO,s,>)
+(cerca8,[^s],CERCA4,[^s],>)
+(INIZIO[2..4],{^-},INIZIO[2..4],{^-},<)
+(INIZIO[2..4],-,CERCA[2..4],-,>)
+
+(SCRIVI_GOOD_FONDO,[^-],SCRIVI_GOOD_FONDO,[^-],>)
+(SCRIVI_GOOD_FONDO,-,SCRIVI_GOOD_INIZIO,-,<)
+(SCRIVI_GOOD_INIZIO,[^-],SCRIVI_GOOD_INIZIO,-,<)
+(SCRIVI_GOOD_INIZIO,-,SCRIVI_GOOD,G,>)
+
+(SCRIVI_GOOD,-,SCRIVI_GOOD2,O,>)
+(SCRIVI_GOOD2,-,SCRIVI_GOOD3,O,>)
+(SCRIVI_GOOD3,-,fine,d,>)
+
+(SCRIVI_PANIC_FONDO,[^-],SCRIVI_PANIC_FONDO,-,<)
+(SCRIVI_PANIC_FONDO,-,SCRIVI_PANIC,P,>)
+
+(SCRIVI_PANIC,-,SCRIVI_PANIC2,A,>)
+(SCRIVI_PANIC2,-,SCRIVI_PANIC3,N,>)
+(SCRIVI_PANIC3,-,SCRIVI_PANIC4,I,>)
+(SCRIVI_PANIC4,-,fine,C,>)

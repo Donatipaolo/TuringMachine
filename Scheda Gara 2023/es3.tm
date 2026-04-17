@@ -1,0 +1,15 @@
+(0,[^],SCRIVI_9,[^],-)
+(SCRIVI_9,[^],SCRIVI_9,[^],>)
+(SCRIVI_9,[vj],SCRIVI_8,[vj],>)
+
+(SCRIVI_8,[^],SCRIVI_8,[^],>)
+(SCRIVI_{89},-,SCRIVI_0,{89},>)
+(SCRIVI_0,-,VAI_INIZIO,0,<)
+
+(VAI_INIZIO,[^],VAI_INIZIO,[^],<)
+(VAI_INIZIO,-,CERCA_N,-,>)
+(CERCA_N,[^N],CERCA_N,-,>)
+(CERCA_N,[98],FINE,[98],-)
+(CERCA_N,N,SCRIVI_L,-,>)
+(SCRIVI_L, {NEVJ980}, SCRIVI_L, {----980},>)
+(SCRIVI_L, -, FINE, L, -)
