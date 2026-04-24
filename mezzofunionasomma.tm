@@ -49,7 +49,7 @@
 # R08#  +9 /
 # R98#  +  / -----> 198
 
-#Se il primo numero finisce prima del secondo allora il programma legge copia le cifre rimanenti dal secondo numero (Copia_Secondo_Numero)
+#Se il primo numero finisce prima del nsecondo allora il programma legge copia le cifre rimanenti dal secondo numero (Copia_Secondo_Numero)
 #Se il secondo numer finisce prima del secondo allora il programma legge copia tutte le cifre rimanenti dal primo numero (Copia_Primo_Numero)
 
 
